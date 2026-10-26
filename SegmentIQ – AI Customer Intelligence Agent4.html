@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SegmentIQ – AI Customer Intelligence Agent</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4f6fb;--card:#fff;--tx:#161b2e;--mut:#6b7390;--bd:#e3e7f1;--ac:#5b5bf0;--ac2:#8b5cf6;--ok:#12a97a;--bad:#e5484d;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1120;--card:#171b30;--tx:#e8ebf7;--mut:#8f97b8;--bd:#272c48;--ac:#7c7cff;--ac2:#a78bfa;--ok:#2dd4a0;--bad:#ff6b70;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1120;--card:#171b30;--tx:#e8ebf7;--mut:#8f97b8;--bd:#272c48;--ac:#7c7cff;--ac2:#a78bfa;--ok:#2dd4a0;--bad:#ff6b70;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:18px}
+header{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;background:linear-gradient(120deg,#3b3bd6,#8b5cf6);color:#fff;border-radius:18px;padding:20px 24px}
+header h1{margin:0;font-size:22px;letter-spacing:-.3px}header p{margin:2px 0 0;opacity:.85;font-size:13px}
+.ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:13px}
+.ctl input[type=range]{accent-color:#fff;width:110px}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:8px 14px;background:var(--ac);color:#fff;font-weight:600}
+header button{background:#fff;color:#3b3bd6}
+.pill{background:rgba(255,255,255,.2);padding:4px 10px;border-radius:99px;font-size:12px}
+.pill:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ade80;margin-right:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px}
+.kpi small{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.5px}.kpi b{display:block;font-size:26px;letter-spacing:-.5px;margin-top:2px}.kpi span{font-size:12px;color:var(--ok)}
+nav{display:flex;gap:6px;margin:6px 0 14px;overflow-x:auto}
+nav button{background:var(--card);color:var(--mut);border:1px solid var(--bd);white-space:nowrap}
+nav button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+h3{margin:0 0 10px;font-size:15px}.mut{color:var(--mut)}
+.scroll{overflow-x:auto}svg{max-width:100%;height:auto;display:block}svg text{fill:var(--mut);font-size:11px}
+.seg{border-left:5px solid var(--c)}.seg h4{margin:0;font-size:16px}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c);font-weight:700}
+.m{display:grid;grid-template-columns:90px 1fr 54px;gap:8px;align-items:center;font-size:12px;margin:3px 0}
+.bar{height:7px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--c,var(--ac));border-radius:9px}
+.box{background:var(--bg);border-radius:10px;padding:10px 12px;margin-top:10px;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--bd)}th{color:var(--mut);font-weight:600;font-size:12px}
+label{display:block;font-size:12px;color:var(--mut);margin:10px 0 3px}select,input[type=text]{width:100%;padding:9px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit}
+input[type=range]{width:100%;accent-color:var(--ac)}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.res div{background:var(--bg);border-radius:12px;padding:10px}.res b{font-size:20px;display:block}
+.good{color:var(--ok)}.bad{color:var(--bad)}
+#chat{height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px}
+.b{max-width:88%;padding:10px 13px;border-radius:14px;font-size:13px}.u{align-self:flex-end;background:var(--ac);color:#fff}.a{align-self:flex-start;background:var(--bg);border:1px solid var(--bd)}
+.steps{font:11px ui-monospace,Menlo,monospace;color:var(--mut);margin-bottom:6px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.chips button{background:var(--bg);color:var(--ac);border:1px solid var(--bd);font-weight:500;font-size:12px}
+.row{display:flex;gap:8px}.hide{display:none}
+</style></head><body><div class="wrap">
+<header><div><h1>◆ SegmentIQ — AI Customer Intelligence Agent</h1><p>Discovers behavioral segments from 12 months of transactions &amp; interactions, then recommends differentiated strategies.</p></div>
+<div class="ctl"><span class="pill">Agent online</span><label style="margin:0;color:#fff">Segments k = <b id="kv">5</b></label><input type="range" id="k" min="3" max="7" value="5"><button id="run">Re-run clustering</button></div></header>
+<div class="kpis" id="kpis"></div>
+<nav id="nav"><button class="on" data-t="o">Overview</button><button data-t="s">Segment Profiles</button><button data-t="c">Campaign Lab</button><button data-t="a">AI Agent</button></nav>
+<section id="o"></section><section id="s" class="hide"></section>
+<section id="c" class="hide"><div class="grid"><div class="card"><h3>Campaign simulator</h3><label>Target segment</label><select id="cs"></select><label>Channel</label><select id="cc"><option>Email</option><option>SMS</option><option>App push</option><option>Direct mail</option></select><label>Budget: <b id="bv"></b></label><input type="range" id="cb" min="2000" max="100000" step="1000" value="25000"><label>Offer depth (discount): <b id="dv"></b></label><input type="range" id="cd" min="0" max="40" step="5" value="10"><div class="box" id="cnote"></div></div><div class="card"><h3>Targeted vs. broad “one-size” campaign</h3><div id="cout"></div></div></div></section>
+<section id="a" class="hide"><div class="card"><h3>Ask the agent</h3><div id="chat"></div><div class="chips" id="chips"></div><div class="row"><input type="text" id="q" placeholder="e.g. Which segment is most at risk? Draft an email for Deal Seekers…"><button id="send">Send</button></div></div></section>
+<p class="mut" style="font-size:12px;margin-top:14px">Assumed data: 1,200 synthetic customers (RFM, discount reliance, support tickets, sentiment, tenure, category, channel). Clustering runs live in your browser; the agent’s reasoning layer is rule-based here and can be swapped for an LLM API in production.</p>
+</div>
+<script>
+const $=s=>document.querySelector(s),fmt=n=>'$'+Math.round(n).toLocaleString(),pc=n=>(n*100).toFixed(1)+'%';
+const COL=['#5b5bf0','#12a97a','#f59e0b','#e5484d','#06b6d4','#d946ef','#84cc16'];
+let S=7;function R(){S=(S*1664525+1013904223)%4294967296;return S/4294967296}
+function G(){return Math.sqrt(-2*Math.log(R()+1e-9))*Math.cos(6.2832*R())}
+// ---------- assumed data ----------
+const AR=[[.12,12,8,18,4,95,25,.1,1,.6,36],[.22,30,15,9,3,70,20,.2,1,.4,28],[.20,40,20,7,3,38,12,.7,1.5,.1,18],[.16,130,35,6,2,80,25,.3,2.5,-.3,30],[.14,20,12,2,1,55,20,.35,.5,.3,3],[.16,260,60,1.5,1,45,20,.4,1,-.1,24]];
+const CATS=['Fashion','Electronics','Home','Beauty','Grocery'],CH=['Email','SMS','App push','Web'];
+const D=[];for(let i=0;i<1200;i++){let r=R(),a=0,c=0;for(;a<5;a++){c+=AR[a][0];if(r<c)break}const p=AR[a],cl=(x,l,h)=>Math.min(h,Math.max(l,x));
+const f=cl(p[3]+G()*p[4],1,40),aov=cl(p[5]+G()*p[6],12,260);
+D.push({id:'C'+(1000+i),age:Math.round(18+R()*52),rec:cl(p[1]+G()*p[2],1,360),f,aov,spend:f*aov,disc:cl(p[7]+G()*.12,0,1),tick:Math.max(0,Math.round(p[8]+G())),sent:cl(p[9]+G()*.25,-1,1),ten:Math.max(1,p[10]+G()*5),cat:CATS[(Math.floor(R()*3)+a)%5],ch:CH[Math.floor(R()*4)]})}
+const X0=D.map(d=>[Math.log(d.rec+1),d.f,Math.log(d.spend+1),d.disc,d.tick,d.sent,d.ten]);
+const mu=X0[0].map((_,j)=>X0.reduce((s,r)=>s+r[j],0)/D.length),sd=X0[0].map((_,j)=>Math.sqrt(X0.reduce((s,r)=>s+(r[j]-mu[j])**2,0)/D.length)||1);
+const X=X0.map(r=>r.map((v,j)=>(v-mu[j])/sd[j]));
+// ---------- K-means ----------
+const dist=(a,b)=>a.reduce((s,v,i)=>s+(v-b[i])**2,0);
+function km(k){let best=null;for(let t=0;t<4;t++){let C=[X[Math.floor(R()*X.length)]];while(C.length<k){const ds=X.map(x=>Math.min(...C.map(c=>dist(x,c)))),tot=ds.reduce((a,b)=>a+b,0);let r=R()*tot,i=0;for(;i<ds.length-1&&(r-=ds[i])>0;i++);C.push(X[i])}
+let L=[];for(let it=0;it<30;it++){L=X.map(x=>{let b=0,bd=1e9;C.forEach((c,i)=>{const d=dist(x,c);if(d<bd){bd=d;b=i}});return b});C=C.map((c,i)=>{const m=X.filter((_,j)=>L[j]==i);return m.length?c.map((_,d)=>m.reduce((s,r)=>s+r[d],0)/m.length):c})}
+const inr=X.reduce((s,x,j)=>s+dist(x,C[L[j]]),0);if(!best||inr<best.inr)best={L,inr}}return best}
+const avg=(a,f)=>a.reduce((s,x)=>s+f(x),0)/a.length,mode=(a,f)=>{const m={};a.forEach(x=>m[f(x)]=(m[f(x)]||0)+1);return Object.entries(m).sort((x,y)=>y[1]-x[1])[0][0]};
+const eta=(g)=>{const m=avg(D,d=>d.spend),T=D.reduce((s,d)=>s+(d.spend-m)**2,0);let B=0;const gr={};D.forEach((d,i)=>(gr[g[i]]=gr[g[i]]||[]).push(d));Object.values(gr).forEach(x=>B+=x.length*(avg(x,d=>d.spend)-m)**2);return B/T};
+// ---------- playbooks (agent knowledge) ----------
+const PB={'Champions':{goal:'Protect & grow advocacy',offer:'Early access, VIP tier, referral rewards — no discounts',ch:'App push',resp:.16,sens:.3,sub:'You’re first in line: new arrivals, just for you'},
+'Steady Regulars':{goal:'Raise basket size & frequency',offer:'Bundles, “spend $X get Y” thresholds, category cross-sell',ch:'Email',resp:.1,sens:.8,sub:'Complete your set — bundle & save'},
+'Deal Seekers':{goal:'Shift to margin-friendly purchases',offer:'Flash sales with minimum basket, loyalty points instead of % off',ch:'SMS',resp:.12,sens:1.6,sub:'48-hour flash deal — ends tonight'},
+'At-Risk Loyalists':{goal:'Win back before churn',offer:'Service recovery + personalised “we miss you” incentive',ch:'Email',resp:.07,sens:1.0,sub:'We’ve fixed what went wrong — here’s a thank-you'},
+'Dormant Drifters':{goal:'Low-cost reactivation test',offer:'Strong one-time win-back offer; sunset if no response in 60 days',ch:'Direct mail',resp:.03,sens:1.3,sub:'It’s been a while — 25% to come back'},
+'New Explorers':{goal:'Drive 2nd & 3rd purchase',offer:'Onboarding journey, 2nd-order incentive, category education',ch:'App push',resp:.13,sens:.9,sub:'Your next order, made easier'}};
+const CHM={'Email':[1,.35],'SMS':[1.15,.8],'App push':[1.25,.15],'Direct mail':[.8,2.6]};
+const base=n=>n.replace(/ [B-D]$/,'');
+function name(s,g){const u=new Set(G_names);let n=s.rec>90?(s.f<3?'Dormant Drifters':'At-Risk Loyalists'):s.ten<8?'New Explorers':s.disc>.55?'Deal Seekers':s.spend>g.spend*1.8?'Champions':(s.sent<-.1||s.tick>2)?'At-Risk Loyalists':'Steady Regulars';let x=n,i=66;while(G_names.includes(x))x=n+' '+String.fromCharCode(i++);G_names.push(x);return x}
+let G_names=[],SG=[],TOT,RES;
+function cluster(){G_names=[];const k=+$('#k').value,{L}=km(k);const g={spend:avg(D,d=>d.spend)};TOT=D.reduce((s,d)=>s+d.spend,0);
+SG=[];for(let i=0;i<k;i++){const m=D.filter((_,j)=>L[j]==i);if(!m.length)continue;const s={i,m,n:m.length,share:m.length/D.length,rev:m.reduce((a,d)=>a+d.spend,0),rec:avg(m,d=>d.rec),f:avg(m,d=>d.f),spend:avg(m,d=>d.spend),aov:avg(m,d=>d.aov),disc:avg(m,d=>d.disc),tick:avg(m,d=>d.tick),sent:avg(m,d=>d.sent),ten:avg(m,d=>d.ten),age:avg(m,d=>d.age),cat:mode(m,d=>d.cat),ch:mode(m,d=>d.ch)};s.rs=s.rev/TOT;SG.push(s)}
+SG.sort((a,b)=>b.spend-a.spend);SG.forEach((s,i)=>{s.name=name(s,g);s.c=COL[i%7];s.pb=PB[base(s.name)]});
+const ag=D.map(d=>d.age<30?0:d.age<45?1:d.age<60?2:3),sl=new Array(D.length);SG.forEach(s=>s.m.forEach(d=>sl[D.indexOf(d)]=s.i));
+RES={dem:eta(ag),beh:eta(sl)};render()}
+// ---------- render ----------
+function render(){
+$('#kpis').innerHTML=[['Customers',D.length.toLocaleString(),'12-month window'],['Annual revenue',fmt(TOT),'avg '+fmt(TOT/D.length)+' / customer'],['Behavioral segments',SG.length,'auto-named by agent'],['Spend explained',pc(RES.beh),'vs '+pc(RES.dem)+' for age bands']].map(k=>`<div class="card kpi"><small>${k[0]}</small><b>${k[1]}</b><span>${k[2]}</span></div>`).join('');
+// overview
+const W=560,H=300,mx=Math.max(...D.map(d=>d.f)),lg=Math.log(1+Math.max(...D.map(d=>d.spend)));
+const sc=D.map(d=>{const s=SG.find(s=>s.m.includes(d));return`<circle cx="${40+d.f/mx*(W-60)}" cy="${H-30-Math.log(1+d.spend)/lg*(H-50)}" r="3" fill="${s.c}" opacity=".6"/>`}).join('');
+const bars=SG.map((s,i)=>`<g transform="translate(0,${i*40})"><text x="0" y="12" style="fill:var(--tx);font-weight:600">${s.name}</text><rect x="0" y="18" width="${s.share*420}" height="8" rx="4" fill="${s.c}" opacity=".4"/><rect x="0" y="28" width="${s.rs*420}" height="8" rx="4" fill="${s.c}"/><text x="${Math.max(s.share,s.rs)*420+8}" y="34">${pc(s.share)} cust · ${pc(s.rs)} rev</text></g>`).join('');
+const age=[['18–29',18,30],['30–44',30,45],['45–59',45,60],['60+',60,99]].map(a=>{const m=D.filter(d=>d.age>=a[1]&&d.age<a[2]);return[a[0],avg(m,d=>d.spend)]}),am=Math.max(...age.map(a=>a[1])),bm=Math.max(...SG.map(s=>s.spend));
+const cmp=(arr,mx,cf)=>arr.map((a,i)=>`<div class="m" style="--c:${cf(i)};grid-template-columns:110px 1fr 60px"><span>${a[0]}</span><div class="bar"><i style="width:${a[1]/mx*100}%"></i></div><b>${fmt(a[1])}</b></div>`).join('');
+$('#o').innerHTML=`<div class="grid"><div class="card"><h3>Behavioral map — frequency vs. annual spend</h3><svg viewBox="0 0 ${W} ${H}"><line x1="40" y1="${H-30}" x2="${W-10}" y2="${H-30}" stroke="var(--bd)"/><line x1="40" y1="10" x2="40" y2="${H-30}" stroke="var(--bd)"/>${sc}<text x="${W/2}" y="${H-8}">Orders per year →</text><text x="4" y="20">Spend ↑</text></svg></div>
+<div class="card"><h3>Customer share vs. revenue share</h3><div class="scroll"><svg viewBox="0 0 560 ${SG.length*40}">${bars}</svg></div><p class="mut" style="font-size:12px">Light bar = % of customers · solid bar = % of revenue</p></div>
+<div class="card"><h3>Old way: demographic (age) segments</h3>${cmp(age,Math.max(am,bm),i=>'#9aa3c4')}<div class="box">Age bands barely differ in value — they explain only <b class="bad">${pc(RES.dem)}</b> of spend variance, so campaigns built on them are blunt.</div></div>
+<div class="card"><h3>New way: behavioral segments</h3>${cmp(SG.map(s=>[s.name,s.spend]),Math.max(am,bm),i=>SG[i].c)}<div class="box">Behavior explains <b class="good">${pc(RES.beh)}</b> of spend variance — a <b>${(RES.beh/RES.dem).toFixed(0)}×</b> sharper lens for targeting.</div></div></div>`;
+// profiles
+const mt=(l,v,mx,t,c)=>`<div class="m"><span>${l}</span><div class="bar"><i style="width:${Math.min(100,v/mx*100)}%"></i></div><b>${t}</b></div>`;
+$('#s').innerHTML=`<div class="grid">`+SG.map(s=>`<div class="card seg" style="--c:${s.c}"><div style="display:flex;justify-content:space-between;align-items:center"><h4>${s.name}</h4><span class="tag">${s.n} customers</span></div><p class="mut" style="margin:4px 0 8px">${narr(s)}</p>${mt('Recency',360-s.rec,360,Math.round(s.rec)+'d')}${mt('Frequency',s.f,20,s.f.toFixed(1)+'/yr')}${mt('Annual spend',s.spend,Math.max(...SG.map(x=>x.spend)),fmt(s.spend))}${mt('Discount use',s.disc,1,pc(s.disc))}${mt('Sentiment',(s.sent+1)/2,1,s.sent.toFixed(2))}
+<div class="box"><b>🎯 Goal:</b> ${s.pb.goal}<br><b>💡 Offer:</b> ${s.pb.offer}<br><b>📣 Best channel:</b> ${s.pb.ch} <span class="mut">(they currently engage most via ${s.ch}; top category ${s.cat})</span></div>
+<div class="box"><b>✉️ Agent-drafted subject line</b><br>“${s.pb.sub}”</div></div>`).join('')+`</div>`;
+// lab select
+$('#cs').innerHTML=SG.map((s,i)=>`<option value="${i}">${s.name} (${s.n})</option>`).join('');sim()}
+function narr(s){const p=[];p.push(s.rec<30?'buy very recently':s.rec>90?'have not bought in ~'+Math.round(s.rec)+' days':'buy every few weeks');p.push(s.f>12?'order often':s.f<3?'rarely order':'order '+s.f.toFixed(0)+'×/yr');if(s.disc>.5)p.push('lean heavily on discounts');if(s.sent<-.1)p.push('show negative sentiment, '+s.tick.toFixed(1)+' tickets');if(s.ten<8)p.push('joined recently');return 'They '+p.join(', ')+'. '+pc(s.rs)+' of revenue.'}
+// ---------- simulator ----------
+function calc(n,aov,pb,ch,B,dep){const [mult,cost]=CHM[ch],reach=Math.min(n,Math.floor(B/cost)),resp=Math.min(.6,pb.resp*mult*(1+dep/100*pb.sens*3)),sold=reach*resp,rev=sold*aov*(1-dep/100),profit=rev*.45-reach*cost,spent=reach*cost;return{reach,resp,sold,rev,profit,spent,roi:spent?profit/spent:0}}
+function sim(){const s=SG[$('#cs').value||0],ch=$('#cc').value,B=+$('#cb').value,dp=+$('#cd').value;$('#bv').textContent=fmt(B);$('#dv').textContent=dp+'%';
+const t=calc(s.n,s.aov,s.pb,ch,B,dp),b=calc(D.length,avg(D,d=>d.aov),{resp:.02,sens:.5},'Email',B,10);
+$('#cnote').innerHTML=`<b>Agent recommendation:</b> ${s.pb.ch==ch?'✅ Great channel match.':'Consider <b>'+s.pb.ch+'</b> instead of '+ch+'.'} Suggested depth for this segment: <b>${s.pb.sens>1.2?'10–15% (price-sensitive: prefer points/bundles)':s.pb.sens<.5?'0–5% (reward with access, not price)':'10%'}</b>.`;
+const row=(l,a,b2,f)=>`<tr><td>${l}</td><td><b>${f(a)}</b></td><td class="mut">${f(b2)}</td></tr>`;
+$('#cout').innerHTML=`<table><tr><th>Metric</th><th>Targeted · ${s.name}</th><th>Broad campaign</th></tr>${row('Customers reached',t.reach,b.reach,x=>Math.round(x).toLocaleString())}${row('Response rate',t.resp,b.resp,pc)}${row('Orders',t.sold,b.sold,x=>Math.round(x))}${row('Revenue',t.rev,b.rev,fmt)}${row('Net profit',t.profit,b.profit,fmt)}${row('ROI',t.roi,b.roi,x=>(x*100).toFixed(0)+'%')}</table><div class="res"><div>Profit uplift<b class="${t.profit>b.profit?'good':'bad'}">${b.profit>0?((t.profit/b.profit-1)*100).toFixed(0)+'%':fmt(t.profit-b.profit)}</b></div><div>Response lift<b class="good">${(t.resp/b.resp).toFixed(1)}×</b></div></div>`}
+['cs','cc','cb','cd'].forEach(i=>$('#'+i).oninput=sim);
+// ---------- agent ----------
+const sel=q=>SG.find(s=>q.toLowerCase().includes(base(s.name).toLowerCase().split(' ')[0]));
+function agent(q){const l=q.toLowerCase(),st=[];let h='',s=sel(q);
+if(/risk|churn|lapse|lose|win.?back/.test(l)){st.push('query_segments(rec>90 OR sentiment<0)');const r=SG.filter(x=>x.rec>90||x.sent<-.1);const tot=r.reduce((a,x)=>a+x.rev,0);st.push('estimate_revenue_at_risk()');h=r.length?`<b>${fmt(tot)}</b> (${pc(tot/TOT)} of revenue) sits in at-risk groups: ${r.map(x=>`<b>${x.name}</b> (${x.n})`).join(', ')}.<br>Prioritise <b>${r[0].name}</b>: ${r[0].pb.offer}.`:'No segment shows churn signals at this k — try increasing k.'}
+else if(/best|top|valuable|vip|champion/.test(l)){st.push('rank_segments(by=annual_spend)');const t=SG[0];h=`<b>${t.name}</b> — ${t.n} customers (${pc(t.share)}) generate <b>${pc(t.rs)}</b> of revenue at ${fmt(t.spend)} each. ${t.pb.offer}.`}
+else if(/discount|promo|deal|price/.test(l)){st.push('rank_segments(by=discount_reliance)');const d=[...SG].sort((a,b)=>b.disc-a.disc)[0];h=`<b>${d.name}</b> use discounts on ${pc(d.disc)} of orders. Blanket promos train them to wait for sales — switch to ${d.pb.offer.toLowerCase()}. Keep <b>${SG[0].name}</b> off discounts entirely.`}
+else if(/demograph|age|compare|why/.test(l)){st.push('compute_variance_explained(age, behavior)');h=`Age bands explain only <b>${pc(RES.dem)}</b> of spend variance; behavioral segments explain <b>${pc(RES.beh)}</b>. Same-age customers can be Champions or Dormant — demographics hide that.`}
+else if(/budget|alloc|invest|roi/.test(l)){st.push('simulate_all_segments(budget=$50k)');const r=SG.map(x=>({x,c:calc(x.n,x.aov,x.pb,x.pb.ch,1e9,10)})).map(o=>({...o,w:Math.max(.01,o.c.roi)}));const W2=r.reduce((a,o)=>a+o.w,0);h='Recommended split of a $50k budget (weighted by simulated ROI):<table>'+r.map(o=>{const b=50000*o.w/W2,c=calc(o.x.n,o.x.aov,o.x.pb,o.x.pb.ch,b,10);return`<tr><td>${o.x.name}</td><td><b>${fmt(b)}</b></td><td class="mut">${o.x.pb.ch} · ROI ${(c.roi*100).toFixed(0)}%</td></tr>`}).join('')+'</table>'}
+else if(/email|copy|message|draft|write|subject/.test(l)){s=s||SG[0];st.push('generate_copy(segment="'+s.name+'")');h=`<b>Subject:</b> ${s.pb.sub}<br><b>Body:</b> Hi {first_name}, we noticed you love ${s.cat}. ${s.pb.goal.includes('Protect')?'As one of our best customers, you get first access to what’s new.':s.pb.goal.includes('Win back')?'We’ve made improvements and would love another chance.':'Here’s something picked for you: '+s.pb.offer.toLowerCase()+'.'}<br><b>Send via:</b> ${s.pb.ch} · <b>KPI:</b> ${s.pb.goal}`}
+else if(s){st.push('describe_segment("'+s.name+'")');h=`<b>${s.name}</b>: ${narr(s)}<br><b>Strategy:</b> ${s.pb.goal} — ${s.pb.offer}. Best channel: ${s.pb.ch}.`}
+else{st.push('summarise_all()');h=`I found <b>${SG.length}</b> segments. Top value: <b>${SG[0].name}</b> (${pc(SG[0].rs)} of revenue). Biggest risk: ${SG.filter(x=>x.rec>90).map(x=>x.name).join(', ')||'none flagged'}. Try asking about risk, discounts, budget, demographics, or “draft an email for …”.`}
+return`<div class="steps">⚙ ${st.join(' → ')}</div>${h}`}
+function say(t,c){const d=document.createElement('div');d.className='b '+c;d.innerHTML=t;$('#chat').appendChild(d);$('#chat').scrollTop=1e9;return d}
+function ask(q){if(!q.trim())return;say(q.replace(/</g,'&lt;'),'u');const d=say('<span class="mut">Agent is analysing…</span>','a');setTimeout(()=>{d.innerHTML=agent(q);$('#chat').scrollTop=1e9},600);$('#q').value=''}
+['Which segment is most at risk?','Who are our best customers?','How should I allocate a $50k budget?','Why not use age segments?','Who over-relies on discounts?','Draft an email for the top segment'].forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>ask(t);$('#chips').appendChild(b)});
+$('#send').onclick=()=>ask($('#q').value);$('#q').onkeydown=e=>{if(e.key=='Enter')ask($('#q').value)};
+$('#k').oninput=()=>$('#kv').textContent=$('#k').value;$('#k').onchange=cluster;$('#run').onclick=()=>{S=Math.floor(Math.random()*1e6)+1;cluster()};
+$('#nav').onclick=e=>{const t=e.target.dataset.t;if(!t)return;document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b==e.target));['o','s','c','a'].forEach(i=>$('#'+i).classList.toggle('hide',i!=t))};
+cluster();say('Hi, I’m SegmentIQ. I clustered your customers on 7 behavioral signals. Ask me anything about the segments, risks, budgets or copy.','a');
+</script></body></html>
